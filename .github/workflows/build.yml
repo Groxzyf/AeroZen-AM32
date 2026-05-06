@@ -1,0 +1,47 @@
+name: Build AM32 Firmware
+
+on:
+
+  push:
+
+  workflow_dispatch:
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+
+      uses: actions/checkout@v4
+
+    - name: Install toolchain
+
+      run: |
+
+        sudo apt update
+
+        sudo apt install -y gcc-arm-none-eabi make
+
+    - name: Build firmware
+
+      run: |
+
+        make TARGET=SEQURE_4IN1_F421
+
+    - name: Upload firmware
+
+      uses: actions/upload-artifact@v4
+
+      with:
+
+        name: firmware
+
+        path: |
+
+          **/*.bin
+
+          **/*.hex
